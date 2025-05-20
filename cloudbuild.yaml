@@ -48,7 +48,7 @@ steps:
         "--project=$PROJECT_ID",
         "--to-target=dev"
       ]
-
+  
 timeout: 1200s
 
 images:
