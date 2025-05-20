@@ -14,4 +14,4 @@ metadata:
   name: dev
 description: Cloud Run dev environment
 run:
-  location: $PROJECT_ID
+  location: "projects/${_PROJECT_ID}/locations/${_DEPLOY_REGION}"
