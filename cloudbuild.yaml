@@ -15,7 +15,7 @@ steps:
 
   # Step 3: Create a Cloud Deploy release (no skaffold)
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: bash
+    entrypoint: gcloud
     args:
       - deploy
       - releases
