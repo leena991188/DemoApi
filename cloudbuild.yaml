@@ -20,7 +20,7 @@ steps:
       - deploy
       - releases
       - create
-      - release-$COMMIT_SHA-$(date +%s)
+      - $_RELEASE_NAME
       - --delivery-pipeline=demoapi-pipeline           # ✅ Replace with your Cloud Deploy pipeline name
       - --region=$_DEPLOY_REGION
       - --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
