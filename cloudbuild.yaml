@@ -44,7 +44,7 @@ steps:
         "deploy", "releases", "create", "release-${BUILD_ID}",
         "--delivery-pipeline=demoapi-pipeline",
         "--region=$_DEPLOY_REGION",
-        "--images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
+        "--images=demoapi=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
         "--project=$PROJECT_ID",
         "--to-target=dev"
       ]
