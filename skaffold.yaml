@@ -1,11 +1,11 @@
 apiVersion: skaffold/v3alpha1
 kind: Config
 metadata:
-  name: cloud-run-app
+  name: demo-app1
 
 build:
   artifacts:
-  - image: '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
+  - image: demoapi  
 
 profiles:
 - name: dev
