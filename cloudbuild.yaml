@@ -20,7 +20,7 @@ steps:
       - deploy
       - releases
       - create
-      - $_RELEASE_NAME
+      - release-$COMMIT_SHA
       - --delivery-pipeline=demoapi-pipeline
       - --region=$_DEPLOY_REGION
       - --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
