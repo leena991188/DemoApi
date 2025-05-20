@@ -9,4 +9,4 @@ deploy:
   cloudrun:
     projectId: responsive-seat-459809-g5
     region: us-central1
-    serviceName: java-app
+    serviceName: demoapi
