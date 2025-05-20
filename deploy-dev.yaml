@@ -1,18 +1,14 @@
-apiVersion: skaffold/v3alpha1
-kind: Config
+apiVersion: serving.knative.dev/v1
+kind: Service
 metadata:
-  name: cloud-run-app
-
-build:
-  artifacts:
-    - image: $_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME
-
-profiles:
-  - name: dev
-    deploy:
-      cloudrun:
-        region: $_DEPLOY_REGION
-        projectId: $PROJECT_ID
-    manifests:
-      rawYaml:
-        - deploy-dev.yaml
+  name: $_SERVICE_NAME
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - image: $_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 128Mi
