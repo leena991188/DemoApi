@@ -5,7 +5,7 @@ metadata:
 
 build:
   artifacts:
-  - image: demoapi  
+  - image: uscentral1-docker.pkg.dev/responsive-seat-459809-g5/cloud-run-source-deploy/demoapi
 
 profiles:
 - name: dev
