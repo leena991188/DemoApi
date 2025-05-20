@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       containers:
-        - image: $_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
+        - image: demoapi
           resources:
             limits:
               cpu: 1000m
