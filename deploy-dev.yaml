@@ -1,13 +1,18 @@
-apiVersion: serving.knative.dev/v1
-kind: Service
+apiVersion: skaffold/v3alpha1
+kind: Config
 metadata:
-  name: app-dev
-spec:
-  template:
-    spec:
-      containers:
-      - image: app  # This is the placeholder Cloud Deploy replaces
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 128Mi
+  name: cloud-run-app
+
+build:
+  artifacts:
+    - image: $_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME
+
+profiles:
+  - name: dev
+    deploy:
+      cloudrun:
+        region: $_DEPLOY_REGION
+        projectId: $PROJECT_ID
+    manifests:
+      rawYaml:
+        - deploy-dev.yaml
