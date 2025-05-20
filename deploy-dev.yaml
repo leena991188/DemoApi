@@ -1,13 +1,12 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: $_SERVICE_NAME
-  namespace: default
+  name: demoapi
 spec:
   template:
     spec:
       containers:
-        - image: demoapi
+        - image: us-central1-docker.pkg.dev/responsive-seat-459809-g5/cloud-run-source-deploy/demoapi
           resources:
             limits:
               cpu: 1000m
