@@ -1,12 +1,12 @@
 apiVersion: skaffold/v2beta29
 kind: Config
 metadata:
-  name: java-app
+  name: demo-app
 build:
   artifacts:
-    - image: us-central1-docker.pkg.dev/responsive-seat-459809-g5/java-app-repo/java-app
+    - image: '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
 deploy:
-  cloudrun:
-    projectId: responsive-seat-459809-g5
-    region: us-central1
-    serviceName: demoapi
+  cloudRun:
+    projectId: $PROJECT_ID
+    region: $_DEPLOY_REGION
+    service: $_SERVICE_NAME
