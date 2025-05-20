@@ -15,3 +15,4 @@ profiles:
   deploy:
     cloudrun:
       region: us-central1
+      
