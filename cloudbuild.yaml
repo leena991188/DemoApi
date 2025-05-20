@@ -13,18 +13,41 @@ steps:
       - push
       - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
 
-  # Step 3: Create a Cloud Deploy release (no skaffold)
+  
+  # Step 3: Apply Cloud Deploy pipeline and targets
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: 'gcloud'
+    args:
+      [
+        "deploy", "apply",
+        "--file=clouddeploy.yaml",
+        "--region=$_DEPLOY_REGION",
+        "--project=$PROJECT_ID"
+      ]
+    id: Apply deploy config
+
+  # Step 4: Wait for Cloud Deploy resources to be ready
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        echo "Waiting for Cloud Deploy resources to become available..."
+        sleep 60
+    id: Wait for pipeline propagation
+
+  # Step 5: Create a Cloud Deploy release 
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
-      - deploy
-      - releases
-      - create
-      - release-${BUILD_ID}
-      - --delivery-pipeline=demoapi-pipeline
-      - --region=$_DEPLOY_REGION
-      - --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
-      - --to-target=dev
+      [
+        "deploy", "releases", "create", "release-${BUILD_ID}",
+        "--delivery-pipeline=demoapi-pipeline",
+        "--region=$_DEPLOY_REGION",
+        "--images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
+        "--to-target=dev"
+      ]
+
 timeout: 1200s
 
 images:
