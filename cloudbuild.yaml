@@ -13,18 +13,19 @@ steps:
       - push
       - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
 
-  # Step 3: Create a Cloud Deploy release using Skaffold
+  # Step 3: Create a Cloud Deploy release (no skaffold)
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: gcloud
+    entrypoint: bash
     args:
-      - deploy
-      - releases
-      - create
-      - release-$COMMIT_SHA
-      - --delivery-pipeline=demoapi-pipeline
-      - --region=$_DEPLOY_REGION
-      - --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
-      - --skaffold-file=skaffold.yaml
+      - -c
+      - |
+        RELEASE_NAME=release-${COMMIT_SHA}-$(date +%s)
+        gcloud deploy releases create $RELEASE_NAME \
+          --delivery-pipeline=demoapi-pipeline \
+          --region=$_DEPLOY_REGION \
+          --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA \
+          --to-target=dev
+
 timeout: 1200s
 
 images:
