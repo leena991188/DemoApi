@@ -1,12 +1,17 @@
 apiVersion: skaffold/v3alpha1
 kind: Config
 metadata:
-  name: demo-app
+  name: cloud-run-app
+
 build:
   artifacts:
-    - image: '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
-deploy:
-  cloudRun:
-    projectId: $PROJECT_ID
-    region: $_DEPLOY_REGION
-    service: $_SERVICE_NAME
+  - image: '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
+
+profiles:
+- name: dev
+  manifests:
+    rawYaml:
+    - deploy-dev.yaml
+  deploy:
+    cloudrun:
+      region: asia-south1
