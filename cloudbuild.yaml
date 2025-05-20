@@ -1,6 +1,3 @@
-substitutions:
-  _RELEASE_NAME: "release-$COMMIT_SHA-$_BUILD_ID"
-
 steps:
   # Step 1: Build Docker image
   - name: gcr.io/cloud-builders/docker
@@ -20,15 +17,16 @@ steps:
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
-      - deploy
-      - releases
-      - create
-      - $_RELEASE_NAME
-      - --delivery-pipeline=demoapi-pipeline           # ✅ Replace with your Cloud Deploy pipeline name
-      - --region=$_DEPLOY_REGION
-      - --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
-      - --skaffold-file=skaffold.yaml
-      - --to-target=dev                             # ✅ Replace with your target name if different
+      - -c
+      - |
+        RELEASE_NAME=release-${COMMIT_SHA}-$(date +%s)
+        echo "Creating release: $RELEASE_NAME"
+        gcloud deploy releases create $RELEASE_NAME \
+          --delivery-pipeline=demoapi-pipeline \
+          --region=$_DEPLOY_REGION \
+          --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA \
+          --skaffold-file=skaffold.yaml \
+          --to-target=dev
 
 timeout: 1200s
 
