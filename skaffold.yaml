@@ -14,4 +14,4 @@ profiles:
     - deploy-dev.yaml
   deploy:
     cloudrun:
-      region: asia-south1
+      region: $_DEPLOY_REGION
