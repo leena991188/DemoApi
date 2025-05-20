@@ -1,3 +1,6 @@
+substitutions:
+  _RELEASE_NAME: "release-$COMMIT_SHA-$_BUILD_ID"
+
 steps:
   # Step 1: Build Docker image
   - name: gcr.io/cloud-builders/docker
