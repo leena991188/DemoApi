@@ -1,0 +1,27 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/java-app-repo/java-app:$SHORT_SHA', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/java-app-repo/java-app:$SHORT_SHA']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - deploy
+      - releases
+      - create
+      - release-$SHORT_SHA
+      - --delivery-pipeline=java-app-pipeline
+      - --region=us-central1
+      - --images=java-app=us-central1-docker.pkg.dev/$PROJECT_ID/java-app-repo/java-app:$SHORT_SHA
+      - --skaffold-file=skaffold.yaml
+      - --to-target=dev
+
+substitutions:
+  _DEPLOY_REGION: us-central1
+  _REPO_NAME: java-app-repo
+  _SERVICE_NAME: java-app
+
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/java-app-repo/java-app:$SHORT_SHA
