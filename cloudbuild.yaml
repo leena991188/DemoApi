@@ -1,28 +1,36 @@
 steps:
+  # Step 1: Build Docker image
   - name: gcr.io/cloud-builders/docker
     args:
       - build
       - '-t'
       - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
       - .
+
+  # Step 2: Push Docker image to Artifact Registry
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
+
+  # Step 3: Create a Cloud Deploy release using Skaffold
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    args:
-      - run
-      - deploy
-      - $_SERVICE_NAME
-      - '--image'
-      - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
-      - '--region'
-      - $_DEPLOY_REGION
-      - '--platform'
-      - $_PLATFORM
     entrypoint: gcloud
+    args:
+      - deploy
+      - releases
+      - create
+      - release-$COMMIT_SHA
+      - --delivery-pipeline=demoapi-pipeline           # ✅ Replace with your Cloud Deploy pipeline name
+      - --region=$_DEPLOY_REGION
+      - --images=$_SERVICE_NAME=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA
+      - --skaffold-file=skaffold.yaml
+      - --to-target=dev                             # ✅ Replace with your target name if different
+
 timeout: 1200s
+
 images:
   - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
+
 options:
   logging: CLOUD_LOGGING_ONLY
