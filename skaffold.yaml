@@ -25,7 +25,7 @@ profiles:
         - deploy-staging.yaml
     deploy:
       cloudrun:
-        serviceName: demo-pipeline-staging
+        serviceName: demo-pipeline-dev
         region: us-central1
 
   - name: prod
@@ -34,5 +34,5 @@ profiles:
         - deploy-prod.yaml
     deploy:
       cloudrun:
-        serviceName: demo-pipeline-prod
+        serviceName: demo-pipeline-dev
         region: us-central1
