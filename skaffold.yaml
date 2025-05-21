@@ -15,5 +15,5 @@ profiles:
   deploy:
     cloudrun:
        serviceName: demoapi
-       location: us-central1
+       region: us-central1
     
