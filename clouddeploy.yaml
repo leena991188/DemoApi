@@ -14,5 +14,5 @@ metadata:
   name: dev
 description: Cloud Run dev environment
 run:
-  location: us-central1
+  location: projects/responsive-seat-459809-g5/locations/us-central1/services/demo-pipeline-dev
 
