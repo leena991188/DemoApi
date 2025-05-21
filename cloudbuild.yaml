@@ -13,7 +13,6 @@ steps:
       - push
       - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
 
-  
   # Step 3: Apply Cloud Deploy pipeline and targets
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     entrypoint: 'gcloud'
@@ -36,23 +35,47 @@ steps:
         sleep 60
     id: Wait for pipeline propagation
 
-  # Step 5: Create a Cloud Deploy release 
+  # Step 5: Create a Cloud Deploy release to dev
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
       [
-        "deploy", "releases", "create", "release-${BUILD_ID}",
+        "deploy", "releases", "create", "release-${BUILD_ID}-dev",
         "--delivery-pipeline=demoapi-pipeline",
         "--region=$_DEPLOY_REGION",
         "--images=demoapi=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
         "--project=$PROJECT_ID",
         "--to-target=dev"
       ]
-  
+
+  # Step 6: Promote the same release to staging
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      [
+        "deploy", "rollouts", "promote",
+        "--release=release-${BUILD_ID}-dev",
+        "--delivery-pipeline=demoapi-pipeline",
+        "--region=$_DEPLOY_REGION",
+        "--to-target=staging"
+      ]
+
+  # Step 7: Promote to prod
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      [
+        "deploy", "rollouts", "promote",
+        "--release=release-${BUILD_ID}-dev",
+        "--delivery-pipeline=demoapi-pipeline",
+        "--region=$_DEPLOY_REGION",
+        "--to-target=prod"
+      ]
+
 timeout: 1200s
 
 images:
   - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
 
 options:
-  logging: CLOUD_LOGGING_ONLY 
+  logging: CLOUD_LOGGING_ONLY
