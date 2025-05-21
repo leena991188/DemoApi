@@ -2,18 +2,8 @@ apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
   name: demo-pipeline
-description: Cloud Run pipeline for your app
+description: Sample pipeline to deploy to Cloud Run
 serialPipeline:
   stages:
     - targetId: dev
-      profiles: [dev]
----
-apiVersion: deploy.cloud.google.com/v1
-kind: Target
-metadata:
-  name: dev
-  annotations:
-    deploy.cloud.google.com/target-type: run
-description: Cloud Run dev environment
-run:
-  location: us-central1
+      profiles: []
