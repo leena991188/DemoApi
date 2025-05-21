@@ -54,7 +54,7 @@ steps:
     args:
       [
         "deploy", "rollouts", "promote",
-        "--release=release-${BUILD_ID}-dev",
+        "--release=release-${BUILD_ID}-staging",
         "--delivery-pipeline=demoapi-pipeline",
         "--region=$_DEPLOY_REGION",
         "--to-target=staging"
@@ -66,7 +66,7 @@ steps:
     args:
       [
         "deploy", "rollouts", "promote",
-        "--release=release-${BUILD_ID}-dev",
+        "--release=release-${BUILD_ID}-prod",
         "--delivery-pipeline=demoapi-pipeline",
         "--region=$_DEPLOY_REGION",
         "--to-target=prod"
