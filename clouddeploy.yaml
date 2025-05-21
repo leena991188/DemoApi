@@ -13,6 +13,5 @@ kind: Target
 metadata:
   name: dev
 description: Cloud Run dev environment
-spec:
-  run:
-    location: us-central1
+run:
+  location: us-central1
