@@ -14,5 +14,5 @@ metadata:
   name: dev
 description: Cloud Run dev environment
 run:
-  location: location: us-central1
+  location: us-central1
 
