@@ -14,6 +14,6 @@ profiles:
     - deploy-dev.yaml
   deploy:
     cloudrun:
-       serviceName: demoapi
+       serviceName: demo-pipeline-dev
        region: us-central1
     
