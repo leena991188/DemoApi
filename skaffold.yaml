@@ -1,19 +1,21 @@
+
 apiVersion: skaffold/v3alpha1
 kind: Config
 metadata:
-  name: demo-app1
+  name: demo-app
 
 build:
   artifacts:
-  - image: us-central1-docker.pkg.dev/responsive-seat-459809-g5/cloud-run-source-deploy/demoapi
+    - image: us-central1-docker.pkg.dev/PROJECT_ID/REPO_NAME/demoapi
+  tagPolicy:
+    gitCommit: {}
 
 profiles:
-- name: dev
-  manifests:
-    rawYaml:
-    - deploy-dev.yaml
-  deploy:
-    cloudrun:
-       serviceName: demo-pipeline-dev
-       region: us-central1
-    
+  - name: dev
+    manifests:
+      rawYaml:
+        - deploy-dev.yaml
+    deploy:
+      cloudrun:
+        serviceName: demoapi
+        region: us-central1
