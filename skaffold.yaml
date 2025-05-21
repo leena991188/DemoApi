@@ -1,4 +1,3 @@
-
 apiVersion: skaffold/v3alpha1
 kind: Config
 metadata:
@@ -18,4 +17,22 @@ profiles:
     deploy:
       cloudrun:
         serviceName: demo-pipeline-dev
+        region: us-central1
+
+  - name: staging
+    manifests:
+      rawYaml:
+        - deploy-staging.yaml
+    deploy:
+      cloudrun:
+        serviceName: demo-pipeline-staging
+        region: us-central1
+
+  - name: prod
+    manifests:
+      rawYaml:
+        - deploy-prod.yaml
+    deploy:
+      cloudrun:
+        serviceName: demo-pipeline-prod
         region: us-central1
