@@ -1,0 +1,13 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: demo-pipeline-staging
+spec:
+  template:
+    spec:
+      containers:
+        - image: us-central1-docker.pkg.dev/responsive-seat-459809-g5/cloud-run-source-deploy/demoapi
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 256Mi
