@@ -48,18 +48,7 @@ steps:
         "--to-target=dev"
       ]
 
-  # Step 6: Promote the same release to staging
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: gcloud
-    args:
-         [
-        "deploy", "releases", "create", "release-${BUILD_ID}-staging",
-        "--delivery-pipeline=demoapi-pipeline",
-        "--region=$_DEPLOY_REGION",
-        "--images=demoapi=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
-        "--project=$PROJECT_ID",
-        "--to-target=staging"
-      ]
+  
 
   # Step 7: Promote to prod
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
