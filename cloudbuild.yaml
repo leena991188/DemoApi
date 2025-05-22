@@ -42,11 +42,23 @@ steps:
     args:
       [
         "deploy", "releases", "create", "release-${BUILD_ID}-dev",
-        "--delivery-pipeline=demo-pipeline",
+        "--delivery-pipeline=demoapi-pipeline",
         "--region=$_DEPLOY_REGION",
         "--images=demoapi=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA",
         "--project=$PROJECT_ID",
         "--to-target=dev"
+      ]
+    
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      [
+        "deploy", "rollouts", "promote",
+        "--release=release-${BUILD_ID}-dev",
+        "--delivery-pipeline=demo-pipeline",
+        "--region=$_DEPLOY_REGION",
+        "--project=$PROJECT_ID",
+        "--to-target=prod"
       ]
   
 timeout: 1200s
