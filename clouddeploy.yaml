@@ -6,8 +6,8 @@ description: Sample pipeline to deploy to Cloud Run
 serialPipeline:
   stages:
     - targetId: dev
-      profiles: [dev]
+      profiles: []
     - targetId: staging
-      profiles: [staging]
+      profiles: []
     - targetId: prod
-      profiles: [prod]
+      profiles: []
