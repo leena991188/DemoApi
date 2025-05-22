@@ -25,6 +25,7 @@ steps:
       ]
     id: Apply deploy config
 
+
   # Step 4: Wait for Cloud Deploy resources to be ready
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     entrypoint: 'bash'
@@ -48,34 +49,23 @@ steps:
         "--to-target=dev"
       ]
 
-  # Step 6: Promote the release to staging
+  
+  # Step 6: Promote the release to prod
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk 
     entrypoint: gcloud
     args:
-      [
-        "deploy", "rollouts", "promote",
-        "--release=release-${BUILD_ID}-dev",
-        "--delivery-pipeline=demo-pipeline",
-        "--region=$_DEPLOY_REGION",
-        "--project=$PROJECT_ID"
-      ]
+    [
+      "deploy", "rollouts", "promote",
+      "--release=release-${BUILD_ID}-dev",
+      "--delivery-pipeline=demo-pipeline",
+      "--region=$_DEPLOY_REGION",
+      "--project=$PROJECT_ID"
+    ]
 
-  # Step 7: Promote the release to prod
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk 
-    entrypoint: gcloud
-    args:
-      [
-        "deploy", "rollouts", "promote",
-        "--release=release-${BUILD_ID}-dev",
-        "--delivery-pipeline=demo-pipeline",
-        "--region=$_DEPLOY_REGION",
-        "--project=$PROJECT_ID"
-      ]
+timeout: 1200s
 
 images:
   - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
 
-timeout: 1200s
-
 options:
-  logging: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_ONLY this is correct
