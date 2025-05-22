@@ -50,10 +50,10 @@ steps:
       ]
 
   
-# Step 6: Promote the release to prod
-- name: gcr.io/google.com/cloudsdktool/cloud-sdk
-  entrypoint: gcloud
-  args:
+  # Step 6: Promote the release to prod
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk 
+    entrypoint: gcloud
+    args:
     [
       "deploy", "rollouts", "promote",
       "--release=release-${BUILD_ID}-dev",
