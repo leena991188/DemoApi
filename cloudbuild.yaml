@@ -49,17 +49,7 @@ steps:
         "--to-target=dev"
       ]
     
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: gcloud
-    args:
-      [
-        "deploy", "rollouts", "promote",
-        "--release=release-${BUILD_ID}-dev",
-        "--delivery-pipeline=demo-pipeline",
-        "--region=$_DEPLOY_REGION",
-        "--project=$PROJECT_ID",
-        "--to-target=prod"
-      ]
+ 
   
 timeout: 1200s
 
