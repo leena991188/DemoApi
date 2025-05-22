@@ -25,6 +25,17 @@ steps:
       ]
     id: Apply deploy config
 
+  # Step: Apply Prod Target
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  entrypoint: 'gcloud'
+  args:
+    [
+      "deploy", "apply",
+      "--file=target-prod.yaml",
+      "--region=$_DEPLOY_REGION",
+      "--project=$PROJECT_ID"
+    ]
+
   # Step 4: Wait for Cloud Deploy resources to be ready
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     entrypoint: 'bash'
@@ -49,7 +60,6 @@ steps:
       ]
 
   
-
   # Step 7: Promote to prod
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
