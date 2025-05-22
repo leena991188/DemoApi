@@ -3,7 +3,7 @@ kind: Target
 metadata:
   name: prod
   labels:
-    environment: prod
+    environment: prod  
 description: Cloud Run production target
 run:
   location: us-central1
